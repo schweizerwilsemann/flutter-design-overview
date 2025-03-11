@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'screens/splash_screen.dart'; // Assuming this is your splash screen file
+import 'package:shared_preferences/shared_preferences.dart'; // Add this dependency
+import 'screens/splash_screen.dart';
+import 'screens/onboarding/onboarding_firstpage.dart';
 
 class MyApp extends StatelessWidget {
   final FluroRouter router;
@@ -14,6 +16,12 @@ class MyApp extends StatelessWidget {
       return const SplashScreen();
     }));
 
+    // Define the route for onboarding screen
+    router.define('/onboarding', handler: Handler(
+        handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+      return const OnboardingFirstPage();
+    }));
+
     // Optional: Define a not found handler that redirects to splash
     router.notFoundHandler = Handler(
         handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
@@ -25,7 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Your App Name',
-      initialRoute: '/', // Set initial route to splash screen
+      initialRoute: '/', // Always start with splash
       onGenerateRoute: router.generator,
       debugShowCheckedModeBanner: false,
     );
