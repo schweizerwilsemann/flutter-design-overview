@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '/screens/authentication/login_page.dart';
 
-/// use the Page View widget to create a carousel. CarouselSlider has some limitations, such as not being able to use a PageController to navigate to a specific page.
 class OnboardingFirstPage extends StatefulWidget {
   const OnboardingFirstPage({super.key});
 
@@ -10,7 +10,6 @@ class OnboardingFirstPage extends StatefulWidget {
 
 class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
   int _currentIndex = 0;
-  // Create a PageController instead of CarouselController
   final PageController _pageController = PageController();
 
   final List<Map<String, String>> contentList = [
@@ -43,7 +42,6 @@ class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Replace CarouselSlider with PageView
                 SizedBox(
                   height: 320.0,
                   child: PageView.builder(
@@ -114,16 +112,19 @@ class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
-                    if (_currentIndex < contentList.length - 1) {
-                      // Use a standard PageController method that's very reliable
+                    if (_currentIndex == contentList.length - 3) {
                       _pageController.animateToPage(
                         _currentIndex + 1,
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                       );
                     } else {
-                      // Navigate to next screen
-                      // Navigator.of(context).pushReplacement(...);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -146,7 +147,12 @@ class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    // Sign in action
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFAF9FD),
@@ -173,7 +179,12 @@ class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
             bottom: 13,
             child: GestureDetector(
               onTap: () {
-                // Skip onboarding
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ),
+                );
               },
               child: Container(
                 padding:
@@ -196,7 +207,6 @@ class _OnboardingFirstPageState extends State<OnboardingFirstPage> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed
     _pageController.dispose();
     super.dispose();
   }

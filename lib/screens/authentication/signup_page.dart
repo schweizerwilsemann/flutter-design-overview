@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:my_practice/screens/onboarding/onboarding_firstpage.dart';
-import 'package:my_practice/screens/authentication/signup_page.dart';
+import 'package:my_practice/screens/authentication/login_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool _obscurePassword = true;
+  bool _passwordFieldTouched = false;
+  String _password = '';
+
+  // Password validation states
+  bool _hasMinLength = false;
+  bool _hasNumber = false;
+  bool _hasLetter = false;
+
+  void _validatePassword(String value) {
+    setState(() {
+      _password = value;
+      _passwordFieldTouched = true;
+      _hasMinLength = value.length >= 8;
+      _hasNumber = RegExp(r'[0-9]').hasMatch(value);
+      _hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const OnboardingFirstPage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           },
         ),
@@ -37,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               const SizedBox(height: 16),
               const Text(
-                'Welcome Back 👋',
+                'Sign Up',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -45,13 +60,38 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 8),
               const Text(
-                'Sign to your account',
+                'Create account and choose favorite menu',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 25),
+              const Text(
+                'Name',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: Color(0xFF121212),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: 'Your name',
+                  hintStyle: TextStyle(color: Colors.grey.shade400),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+              const SizedBox(height: 16),
               const Text(
                 'Email',
                 style: TextStyle(
@@ -87,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 8),
               TextField(
                 obscureText: _obscurePassword,
+                onChanged: _validatePassword,
                 decoration: InputDecoration(
                   hintText: 'Your password',
                   hintStyle: TextStyle(color: Colors.grey.shade400),
@@ -113,21 +154,72 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: Color(0xFF54408C),
-                      fontWeight: FontWeight.w800,
+
+              // Password validation indicators - only show when password field is touched
+              if (_passwordFieldTouched) ...[
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Icon(
+                      _hasMinLength ? Icons.check : Icons.close,
+                      color: _hasMinLength
+                          ? const Color.fromARGB(255, 113, 85, 187)
+                          : Colors.red,
+                      size: 16,
                     ),
-                  ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Minimum 8 characters',
+                      style: TextStyle(
+                        color: _hasMinLength ? Colors.grey : Colors.red,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      _hasNumber ? Icons.check : Icons.close,
+                      color: _hasNumber
+                          ? const Color.fromARGB(255, 113, 85, 187)
+                          : Colors.grey,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'At least 1 number (1-9)',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    Icon(
+                      _hasLetter ? Icons.check : Icons.close,
+                      color: _hasLetter
+                          ? const Color.fromARGB(255, 113, 85, 187)
+                          : Colors.grey,
+                      size: 16,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'At least lowercase or uppercase letters',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+
+              const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
@@ -139,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: const Text(
-                  'Login',
+                  'Register',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -151,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account?",
+                    "Have an account?",
                     style: TextStyle(
                         color: Colors.grey, fontSize: 14, height: 1.4),
                   ),
@@ -160,11 +252,11 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const RegisterPage()),
+                            builder: (context) => const LoginPage()),
                       );
                     },
                     child: const Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(
                         color: Color(0xFF54408C),
                         fontWeight: FontWeight.bold,
@@ -175,63 +267,28 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              const Center(
-                child: Text(
-                  'Or with',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey.shade300),
-                  minimumSize: const Size(double.infinity, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(26),
+              const SizedBox(height: 24),
+              const Column(
+                children: [
+                  Text(
+                    'By clicking "Register", you agree to our',
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset('lib/assets/logo/google_logo.png',
-                        height: 16, width: 16),
-                    const SizedBox(width: 12),
-                    const Text(
-                      'Sign in with Google',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Terms and Data Policy',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF54408C),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey.shade300),
-                  minimumSize: const Size(double.infinity, 52),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(26),
+                    ],
                   ),
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.apple, color: Colors.black, size: 24),
-                    SizedBox(width: 12),
-                    Text(
-                      'Sign in with Apple',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
             ],
           ),

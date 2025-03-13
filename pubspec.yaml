@@ -66,6 +66,8 @@ flutter:
     - lib/assets/images/onboarding/onboarding_image_1.png
     - lib/assets/images/onboarding/onboarding_image_2.png
     - lib/assets/images/onboarding/onboarding_image_3.png
+    - lib/assets/logo/apple_logo.png
+    - lib/assets/logo/google_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

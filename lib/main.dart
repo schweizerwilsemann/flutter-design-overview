@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Add this dependency
 import 'screens/splash_screen.dart';
 import 'screens/onboarding/onboarding_firstpage.dart';
 
