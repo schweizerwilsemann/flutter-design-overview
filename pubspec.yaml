@@ -50,6 +50,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   google_fonts:
   fluro: 2.0.5
+  intl_phone_number_input:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -66,8 +67,12 @@ flutter:
     - lib/assets/images/onboarding/onboarding_image_1.png
     - lib/assets/images/onboarding/onboarding_image_2.png
     - lib/assets/images/onboarding/onboarding_image_3.png
+    - lib/assets/images/success/congrats.png
     - lib/assets/logo/apple_logo.png
     - lib/assets/logo/google_logo.png
+    - lib/assets/icons/phone_icon.png
+    - lib/assets/icons/email_box_icon.png
+    - lib/assets/icons/forgot_password_phone_icon.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
